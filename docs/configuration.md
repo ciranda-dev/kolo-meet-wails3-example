@@ -78,7 +78,7 @@ While a call runs the example writes numbers about it, so a test on a real netwo
 - The report holds counts, sizes and times only, and when each call was and how many people were in it. It never holds a name, a key, an invite, an address or any media: a person is a number, 1 for the first person seen in the call, and a call is its random ID, which the log shows too. It is on by default while Kolo is a beta; the log says at start where the file is and how to turn it off, and [security](security.md#the-call-quality-report) says what it holds.
 - The file takes at most 2 MiB. When the next line would pass that, the file is renamed to `kolo-meet-quality.jsonl.1`, replacing the one there, and a new file starts, so the report takes at most 4 MiB and keeps the last 2 to 4 MiB of lines (a line is about 400 bytes, so a call with one other person keeps its last 3 hours at the least). Calls are appended one after the other.
 - The window shows nothing of it, and what is counted does not change what the call does.
-- The numbers of the transport (round trip, loss, congestion window) are not in it: kolo-moq's `SessionStats` of v0.1.4 and kolo-transport v0.1.7 do not give them. `queue_ms`, `groups_reset` and `groups_expired` show a congested path instead.
+- The numbers of the transport (round trip, loss, congestion window) are not in it. `queue_ms`, `groups_reset` and `groups_expired` show a congested path instead.
 
 Every field is in [how it works](how-it-works.md#reading-the-quality-report).
 
