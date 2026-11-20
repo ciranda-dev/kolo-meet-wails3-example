@@ -1,6 +1,6 @@
 # Build and test
 
-Only Wails needs cgo, on macOS and Linux, for the native window. The audio, video and network libraries are pure Go and need no codec, no sound library and no compiler. The repository has no `go.work` and no `replace`: every Kolo library comes from a published version in `go.mod` (among them kolo-media v0.1.4, kolo-moq v0.1.5, kolo-audio v0.1.6 and kolo-swarm v0.1.7), so a build with `GOWORK=off` works. If you work across several Kolo repositories at once, a `go.work` in their parent folder lets you build against your local copies.
+Only Wails needs cgo, on macOS and Linux, for the native window. The audio, video and network libraries are pure Go and need no codec, no sound library and no compiler. The repository has no `go.work` and no `replace`: every Kolo library comes from a published version in `go.mod`, so a build with `GOWORK=off` works. If you work across several Kolo repositories at once, a `go.work` in their parent folder lets you build against your local copies.
 
 ## Checks
 
