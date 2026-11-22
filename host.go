@@ -100,7 +100,9 @@ func (c *call) startHost() error {
 	if c.relay, err = kolomoq.NewRelay(&kolomoq.RelayConfig{Session: kolomoq.Config{Authorize: c.relayAuthorize}, Resume: reconnectWindow}); err != nil {
 		return err
 	}
-	if c.ln, err = kolosecure.Listen(c.ctx, "127.0.0.1:0", relID, &kolosecure.Config{Transport: transportConfig()}); err != nil {
+	lc := transportConfig()
+	lc.CongestionControl = set.Congestion
+	if c.ln, err = kolosecure.Listen(c.ctx, "127.0.0.1:0", relID, &kolosecure.Config{Transport: lc}); err != nil {
 		return err
 	}
 	c.spawn(func() {

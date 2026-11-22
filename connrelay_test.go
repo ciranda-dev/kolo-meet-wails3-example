@@ -174,13 +174,35 @@ func TestFindTimeoutWithRelays(t *testing.T) {
 		want time.Duration
 	}{
 		{Config{}, defaultFindTimeout},
-		{Config{Relays: []string{a}}, 195 * time.Second},
+		{Config{Relays: []string{a}}, 72 * time.Second},
 		{Config{Relays: []string{a}, FindTimeout: 9 * time.Second}, 9 * time.Second},
 	} {
 		c.cfg.DataDir = t.TempDir()
 		s, err := c.cfg.resolve()
 		if err != nil || s.FindTimeout != c.want {
 			t.Errorf("%+v: %v %v", c.cfg, s.FindTimeout, err)
+		}
+	}
+}
+
+// The second phase of a join connects to the call relay of a host already found: with connection relays it waits
+// one connection's budget, not a second whole FindTimeout.
+func TestCallRelayWait(t *testing.T) {
+	a, _ := relayEntry(t, "127.0.0.1:7001")
+	for _, c := range []struct {
+		cfg  Config
+		want time.Duration
+	}{
+		{Config{}, defaultFindTimeout},
+		{Config{FindTimeout: 10 * time.Minute}, 10 * time.Minute},
+		{Config{Relays: []string{a}}, relayFindTimeout},
+		{Config{Relays: []string{a}, FindTimeout: 10 * time.Minute}, relayFindTimeout},
+		{Config{Relays: []string{a}, FindTimeout: 9 * time.Second}, 9 * time.Second},
+	} {
+		c.cfg.DataDir = t.TempDir()
+		s, err := c.cfg.resolve()
+		if err != nil || s.callRelayWait() != c.want {
+			t.Errorf("%+v: %v %v", c.cfg, s.callRelayWait(), err)
 		}
 	}
 }
@@ -849,7 +871,12 @@ func TestJoinThroughRelayWhenCallRelayUnreachable(t *testing.T) {
 	host.rec.waitNetwork(t, netReady)
 	guest := startPeer(t, "Bruno", Config{Bootstrap: first, Relays: []string{r}}, newFakeHW(130, 660), nil)
 	guest.rec.waitNetwork(t, netReady)
+	start := time.Now()
 	startCall(t, []*peer{host, guest})
+	// Both phases (the host's app, then its call relay) end within one first contact's budget, not two of them.
+	if d := time.Since(start); d > relayFindTimeout {
+		t.Errorf("the guest joined through the relay after %v", d.Round(time.Second))
+	}
 	c, _ := guest.rec.lastCall()
 	if c.RelayLink != linkRelayed || c.RelayVia != strings.Split(r, "@")[0] {
 		t.Errorf("the call's relay is reached %q via %q", c.RelayLink, c.RelayVia)
