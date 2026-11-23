@@ -53,7 +53,7 @@ func (c *call) enter(conn kolomoq.Conn) error {
 	if c.sender, err = secobj.NewSender(c.origin, ns, nil); err != nil {
 		return err
 	}
-	if c.bc, err = kolomedia.NewSecureBroadcast(c.origin, c.sender); err != nil {
+	if c.bc, err = kolomedia.NewSecureBroadcast(c.origin, c.sender, nil); err != nil {
 		return err
 	}
 	if c.keys, err = secobj.NewKeyring(secobj.KeyringConfig{Authorize: c.keyOwner, Relays: c.roomRelays()}); err != nil {

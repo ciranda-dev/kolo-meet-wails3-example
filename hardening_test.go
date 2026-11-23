@@ -1008,7 +1008,7 @@ func TestPublisherClosesItsEncoder(t *testing.T) {
 		t.Fatal(err)
 	}
 	defer sender.Close()
-	bc, err := kolomedia.NewSecureBroadcast(origin, sender)
+	bc, err := kolomedia.NewSecureBroadcast(origin, sender, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
