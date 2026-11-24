@@ -30,7 +30,7 @@ Run it on a host every computer reaches: a public IPv4 address, such as a VPS, o
 Install kolo-node.
 
 ```sh
-go install github.com/ciranda-dev/kolo-node/cmd/kolo-node@v0.1.0
+go install github.com/ciranda-dev/kolo-node/cmd/kolo-node@v0.1.1
 ```
 
 The first entry node. It creates its key file with mode 0600 on the first run and keeps it for the next runs.

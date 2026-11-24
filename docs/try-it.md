@@ -66,7 +66,7 @@ Computer A runs an entry node and a connection relay; both computers run the exa
 Computer A: install kolo-node.
 
 ```sh
-go install github.com/ciranda-dev/kolo-node/cmd/kolo-node@v0.1.0
+go install github.com/ciranda-dev/kolo-node/cmd/kolo-node@v0.1.1
 ```
 
 Computer A, terminal 1: the entry node. `-identity` is the path of its key file: kolo-node creates the file with mode 0600 on the first run and keeps the same key on the next runs. `-listen 0.0.0.0:7447` makes it listen on UDP port 7447 on every interface.
