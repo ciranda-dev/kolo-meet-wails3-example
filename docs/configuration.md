@@ -7,7 +7,7 @@ Every setting is a flag or an environment variable; a flag wins. A bad setting m
 | `-data` | `KOLO_MEET_DATA` | `<user config dir>/kolo-meet` | the data directory (see below) |
 | `-bootstrap` | `KOLO_BOOTSTRAP` | none: the public network | entry nodes of your own network, a comma list of `host:port` as for kolo-swarm's `ParseNodes`: IPv4 or a host name, at most 16. When set, only these are used |
 | `-local` | `KOLO_MEET_LOCAL` | off | use this computer only: the first window runs an entry node on `127.0.0.1:7451` and the others join it. `1` turns it on from the variable. Not with `-bootstrap` or `-first` |
-| `-relay` | `KOLO_MEET_RELAYS` | none | connection relays, `host:port@key` with the relay's key as 64 hex characters, as for kolo-swarm's `ParseRelays`; repeat the flag or give a comma list; at most 16 in all, duplicates dropped. `KOLO_MEET_RELAYS` is read only when neither `-relay` nor `-relay-file` is given |
+| `-relay` | `KOLO_MEET_RELAYS` | none | connection relays, `host:port@key` with the relay's key as 64 hex characters, as for kolo-swarm's `ParseRelays`; repeat the flag or give a comma list; duplicates dropped. `KOLO_MEET_RELAYS` is read only when neither `-relay` nor `-relay-file` is given |
 | `-relay-file` | none | none | a file of connection relays, one `host:port@key` per line, `#` starts a comment; repeatable, added to `-relay` |
 | `-first` | `KOLO_MEET_FIRST` | none | run the first entry node of your own test network on this loopback IP:PORT, such as `127.0.0.1:4000`; the other windows use `-bootstrap` with it. For local testing only. Not with `-local` |
 | `-listen` | `KOLO_MEET_LISTEN` | `127.0.0.1:0` with `-local` or when every entry node is on loopback, else `0.0.0.0:0` | local IPv4 IP:PORT |
