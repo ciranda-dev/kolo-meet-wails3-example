@@ -109,7 +109,7 @@ func (c *call) joinHost() error {
 			conn = h(c, conn)
 		}
 		return c.enter(conn)
-	case <-time.After(s.set.FindTimeout):
+	case <-time.After(s.set.callRelayWait()):
 		c.mu.Lock()
 		defer c.mu.Unlock()
 		return relayWaitReason(c.noRelay, c.relayShare)
